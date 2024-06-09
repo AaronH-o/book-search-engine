@@ -1,5 +1,6 @@
 const { User, Book } = require('../models');
 const { signToken } = require('../utils/auth');
+const { GraphQLScalarType } = require("graphql");
 
 const resolvers = {
   Query: {
@@ -66,3 +67,5 @@ const resolvers = {
     },
   },
 };
+
+module.exports = resolvers;
