@@ -74,17 +74,12 @@ const SearchBooks = () => {
     if (!token) {
       return false;
     }
-
+    console.log(`Book saved`, {...bookToSave});
     try {
       const book = await saveBook({
         variables: {
           book: {
-            bookId: bookToSave.bookId,
-            authors: bookToSave.authors,
-            title: bookToSave.title,
-            description: bookToSave.description,
-            image: bookToSave.image,
-            link: bookToSave.link,
+            ...bookToSave,
           },
           headers: {
             Authorization: `Bearer ${token}`,
