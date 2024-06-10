@@ -6,7 +6,8 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        return await User.findOne({ _id: context.user._id }).populate('savedBooks');
+        const user = await User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return user;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -38,7 +39,7 @@ const resolvers = {
     },
     saveBook: async (parent, { book }, context) => {
       if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
+        const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedBooks: book }},
           { new: true, runValidators: true }
@@ -49,7 +50,7 @@ const resolvers = {
     },
     removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
-        const updatedUser = await User.findOneAndUpdate( 
+        const updatedUser = await User.findByIdAndUpdate( 
           { _id: context.user._id },
           { $pull: { savedBooks: { bookId } } },
           { new: true }
